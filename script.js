@@ -1,17 +1,19 @@
-
-//map
-   function map(){
-    const url = 'http://www.mapquestapi.com/geocoding/v1/reverse?key=tWbaBBw92lD6YInMlGnx6xwwj8GpGZVO&location=30.333472,-81.470448';
-    fetch(url).then(response => response.json())
-        .then(console.log);
-}
-   // will fetch every obj with userID=1
-   let use=fetch('http://jsonplaceholder.typicode.com/posts?userId=1')
-   .then(r=>r.json())
-   .then(d.console.log(d));
-
-
-// gives postId?=1
-   let ret=fetch('http://jsonplaceholder.typicode.com/comments?postId=1') 
-   .then(res=>res.json())
-   .then(out=>console.log(out))
+function displayUserData(data) {
+  let latitde = data.address.geo.lat;
+  let longtude = data.address.geo.lng;
+  let currentLocation;
+  fetchCurrentLocation();
+  async function fetchCurrentLocation() {
+    let res = await fetch(
+      "https://mapquestapi.com/geocoding/v1/reverse?key=q5N7YWFQnHlQCfx0KyD5d1qoATAAFezV&location=" +
+        latitude+","+longtude );
+    let jsonLocation = await res.json();
+    currentLocation = jsonLocation.results[0].locations[0].street;
+    if (currentLocation === "") {
+      navigator.geolocation.getCurrentPosition(latitude);
+    }      
+    function latLong(position) {
+      latitude = position.coords.latitude;
+      longtude = position.coords.longitude;
+      fetchCurrentLocation();
+    }
